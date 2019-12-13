@@ -1,0 +1,6 @@
+language: java
+services:
+  - docker
+script:
+  - travis_wait docker build -q -t rultor -f Dockerfile .
+  - docker images
