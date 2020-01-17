@@ -127,7 +127,7 @@ ENV PATH="${PATH}:/usr/lib/postgresql/10/bin"
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
-ENV MAVEN_VERSION 3.3.9
+ENV MAVEN_VERSION 3.6.3
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
 RUN wget --quiet "http://mirror.dkd.de/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
   mkdir -p /usr/local/apache-maven && \
