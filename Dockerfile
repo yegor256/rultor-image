@@ -134,7 +134,8 @@ RUN wget --quiet "http://mirror.dkd.de/apache/maven/maven-3/${MAVEN_VERSION}/bin
   mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven && \
   tar xzvf "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -C /usr/local/apache-maven/ && \
   update-alternatives --install /usr/bin/mvn mvn "${M2_HOME}/bin/mvn" 1 && \
-  update-alternatives --config mvn
+  update-alternatives --config mvn && \
+  mvn -version
 
 # Warming it up a bit
 RUN /bin/bash -l -c "gem install jekyll:3.4.3"
