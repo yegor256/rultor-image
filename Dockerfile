@@ -56,6 +56,13 @@ RUN apt-get update && apt-get install -y wget bcrypt curl \
   build-essential \
   automake autoconf
 
+# Docker cli
+RUN mkdir -p /tmp/download \
+  && curl -s -L "https://download.docker.com/linux/static/stable/x86_64/docker-18.06.3-ce.tgz" | \
+    tar -xz -C /tmp/download \
+  && mv /tmp/download/docker/docker /usr/bin/ \
+  && rm -rf /tmp/download
+
 # Git 2.0
 RUN apt-get install -y software-properties-common python-software-properties && \
   add-apt-repository ppa:git-core/ppa && \
