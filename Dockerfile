@@ -39,13 +39,13 @@ WORKDIR /tmp
 ENV DEBIAN_FRONTEND=noninteractive
 
 # UTF-8 locale
-RUN apt-get clean && apt-get update && apt-get install -y locales && locale-gen en_US.UTF-8
+RUN apt-get clean && apt-get update -y --fix-missing && apt-get install -y locales && locale-gen en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Basic Linux tools
-RUN apt-get update && apt-get install -y wget bcrypt curl \
+RUN apt-get update -y --fix-missing && apt-get install -y wget bcrypt curl \
   sudo \
   unzip zip \
   gnupg gnupg2 \
@@ -66,7 +66,7 @@ RUN mkdir -p /tmp/download \
 # Git 2.0
 RUN apt-get install -y software-properties-common python-software-properties && \
   add-apt-repository ppa:git-core/ppa && \
-  apt-get update && \
+  apt-get update -y --fix-missing && \
   apt-get install -y git git-core
 
 # SSH Daemon
@@ -75,7 +75,7 @@ RUN apt-get install -y ssh && \
   chmod 0755 /var/run/sshd
 
 # Ruby
-RUN apt-get update && \
+RUN apt-get update -y --fix-missing && \
   apt-get install -y ruby-dev libmagic-dev zlib1g-dev && \
   gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \
   gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
@@ -84,7 +84,7 @@ RUN apt-get update && \
 
 # PHP
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \
-  apt-get update && \
+  apt-get update -y --fix-missing && \
   apt-get install -y php7.2 php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
   mv composer.phar /usr/local/bin/composer
@@ -100,9 +100,9 @@ RUN mkdir jsl && \
 #   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
 
 # Java
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856
-RUN apt-get update
-RUN apt-get install -y openjdk-8-jdk ca-certificates maven
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
+  && apt-get update -y --fix-missing \
+  && apt-get install -y openjdk-8-jdk ca-certificates maven
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 # LaTeX
@@ -123,7 +123,7 @@ RUN rm -rf /usr/lib/node_modules && \
 # Postgresql
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list && \
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt-get update -y && apt-get install -y postgresql-client-10 postgresql-10
+RUN apt-get update -y --fix-missing && apt-get install -y postgresql-client-10 postgresql-10
 USER postgres
 RUN /etc/init.d/postgresql start && \
     psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
