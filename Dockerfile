@@ -148,10 +148,9 @@ RUN wget --quiet "http://mirror.dkd.de/apache/maven/maven-3/${MAVEN_VERSION}/bin
 RUN apt-get update -y --fix-missing && \
   apt-get install -y build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev && \
   apt-get install -y python3-pip python3-dev && \
-  apt-get install -y software-properties-common python-software-properties && \
-  add-apt-repository ppa:jonathonf/python-3.6 && \
+  add-apt-repository -y ppa:deadsnakes/ppa && \
   apt-get update -y --fix-missing && \
-  apt-get install python3.6
+  apt-get install -y python3.6
 
 # Warming it up a bit
 RUN /bin/bash -l -c "gem install jekyll:3.4.3"
