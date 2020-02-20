@@ -100,7 +100,7 @@ RUN mkdir jsl && \
 #   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
 
 # Java
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
+RUN apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
   && apt-get update -y --fix-missing \
   && apt-get install -y openjdk-8-jdk ca-certificates maven
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
