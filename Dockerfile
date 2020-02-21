@@ -115,11 +115,6 @@ RUN apt-get install -y phantomjs
 # S3cmd for AWS S3 integration
 RUN apt-get install -y s3cmd
 
-# NodeJS
-RUN rm -rf /usr/lib/node_modules && \
-  curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-  apt-get install -y nodejs
-
 # Postgresql
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list && \
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -152,6 +147,11 @@ RUN apt purge -y python2.7-minimal && \
   add-apt-repository -y ppa:deadsnakes/ppa && \
   apt-get update -y --fix-missing && \
   apt-get install -y python3.6
+
+# NodeJS
+RUN rm -rf /usr/lib/node_modules && \
+  curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+  apt-get install -y nodejs
 
 # Warming it up a bit
 RUN /bin/bash -l -c "gem install jekyll:3.4.3"
