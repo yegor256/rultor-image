@@ -146,7 +146,8 @@ RUN apt purge -y python2.7-minimal && \
   apt-get install -y python3-pip python3-dev && \
   add-apt-repository -y ppa:deadsnakes/ppa && \
   apt-get update -y --fix-missing && \
-  apt-get install -y python3.6
+  apt-get install -y python3.6 && \
+  pip3 install --upgrade pip
 
 # NodeJS
 RUN rm -rf /usr/lib/node_modules && \
