@@ -140,8 +140,8 @@ RUN wget --quiet "http://mirror.dkd.de/apache/maven/maven-3/${MAVEN_VERSION}/bin
   mvn -version
 
 # Python3
-RUN apt purge -y python2.7-minimal python3.5 && \
-  apt-get update -y --fix-missing && \
+RUN apt purge -y python2.7-minimal python3.5
+RUN apt-get update -y --fix-missing && \
   apt-get install -y build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev && \
   apt-get install -y python3-pip python3-dev && \
   add-apt-repository -y ppa:deadsnakes/ppa && \
