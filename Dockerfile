@@ -64,7 +64,7 @@ RUN mkdir -p /tmp/download \
   && rm -rf /tmp/download
 
 # Git 2.0
-RUN apt-get install -y software-properties-common python-software-properties && \
+RUN apt-get install -y software-properties-common && \
   add-apt-repository ppa:git-core/ppa && \
   apt-get update -y --fix-missing && \
   apt-get install -y git git-core
