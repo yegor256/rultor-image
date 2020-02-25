@@ -116,13 +116,12 @@ RUN apt-get install -y phantomjs
 RUN apt-get install -y s3cmd
 
 # Postgresql
-RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' >> /etc/apt/sources.list.d/pgdg.list && \
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt-get update -y --fix-missing && apt-get install -y postgresql-client-10 postgresql-10
+RUN apt-get update -y --fix-missing && \
+  apt-get install -y postgresql-client-10 postgresql-10
 USER postgres
 RUN /etc/init.d/postgresql start && \
-    psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
-    createdb -O rultor rultor
+  psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
+  createdb -O rultor rultor
 EXPOSE 5432
 USER root
 ENV PATH="${PATH}:/usr/lib/postgresql/10/bin"
