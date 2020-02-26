@@ -38,6 +38,10 @@ WORKDIR /tmp
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# To disable IPv6
+RUN mkdir ~/.gnupg
+RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+
 # UTF-8 locale
 RUN apt-get clean && apt-get update -y --fix-missing && apt-get install -y locales && locale-gen en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
