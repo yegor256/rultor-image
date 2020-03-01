@@ -166,6 +166,10 @@ RUN cd rultor && \
   cd .. && \
   rm -rf rultor
 
+# Setup tools
+RUN gem install pdd
+RUN gem install xcop
+
 # Clean up
 RUN rm -rf /tmp/* && rm -rf /root/.ssh
 
