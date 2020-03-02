@@ -3,3 +3,9 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/total/rultor-image/master/LICENSE.txt)
 
 This is the default Docker image for [Rultor](https://www.rultor.com).
+
+To use Java 8 do this:
+
+```
+$ update-java-alternatives -s java-1.8.0-openjdk-amd64
+```
