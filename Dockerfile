@@ -121,8 +121,8 @@ RUN mkdir jsl && \
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
   && apt-get update -y --fix-missing \
   && apt-get install -y openjdk-8-jdk ca-certificates maven
-ENV MAVEN_OPTS "-XX:MaxPermSize=256m -Xmx1g"
-ENV JAVA_OPTS "-XX:MaxPermSize=256m -Xmx1g"
+ENV MAVEN_OPTS "-Xmx1g"
+ENV JAVA_OPTS "-Xmx1g"
 
 # LaTeX
 RUN apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra xzdec
@@ -156,6 +156,7 @@ RUN wget --quiet "http://mirror.dkd.de/apache/maven/maven-3/${MAVEN_VERSION}/bin
   update-alternatives --install /usr/bin/mvn mvn "${M2_HOME}/bin/mvn" 1 && \
   update-alternatives --config mvn && \
   mvn -version
+COPY settings.xml /root/.m2/settings.xml
 
 # Python3
 RUN add-apt-repository -y ppa:deadsnakes/ppa
@@ -170,14 +171,6 @@ RUN apt-get update -y --fix-missing && \
 RUN rm -rf /usr/lib/node_modules && \
   curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
   apt-get install -y nodejs
-
-# Warming it up a bit
-COPY settings.xml /root/.m2/settings.xml
-RUN git clone https://github.com/yegor256/rultor.git --depth=1 && \
-  cd rultor && \
-  mvn clean install -DskipTests -Pqulice --quiet && \
-  cd .. && \
-  rm -rf rultor
 
 # Clean up
 RUN rm -rf /tmp/* && rm -rf /root/.ssh
