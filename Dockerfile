@@ -63,7 +63,10 @@ RUN apt-get update -y --fix-missing && apt-get install -y wget bcrypt curl \
   bsdmainutils \
   libxml2-utils \
   build-essential \
-  automake autoconf
+  automake autoconf \
+  chrpath libxft-dev \
+  libfreetype6 libfreetype6-dev \
+  libfontconfig1 libfontconfig1-dev
 
 # Docker cli
 RUN mkdir -p /tmp/download \
