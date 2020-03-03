@@ -47,7 +47,8 @@ RUN apt-get clean && \
   apt-get update -y --fix-missing && \
   apt-get install -y locales && \
   locale-gen en_US.UTF-8 && \
-  dpkg-reconfigure locales
+  dpkg-reconfigure locales && \
+  echo -e "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
