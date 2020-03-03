@@ -168,11 +168,9 @@ RUN rm -rf /usr/lib/node_modules && \
   apt-get install -y nodejs
 
 # Warming it up a bit
-RUN /bin/bash -l -c "gem install jekyll:3.4.3"
-ENV MAVEN_OPTS "-Xms512m -Xmx2g"
 COPY settings.xml /root/.m2/settings.xml
-RUN git clone https://github.com/yegor256/rultor.git --depth=1
-RUN cd rultor && \
+RUN git clone https://github.com/yegor256/rultor.git --depth=1 && \
+  cd rultor && \
   mvn clean install -DskipTests -Pqulice --quiet && \
   cd .. && \
   rm -rf rultor
