@@ -97,7 +97,8 @@ RUN apt-get update -y --fix-missing && \
     rvm use 2.6.0 && \
     gem install bundler && \
     gem install xcop && \
-    gem install pdd"
+    gem install pdd && \
+    gem install est"
 
 # PHP
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \
