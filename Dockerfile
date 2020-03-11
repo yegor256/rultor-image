@@ -97,6 +97,7 @@ RUN apt-get update -y --fix-missing && \
   /bin/bash --login -c ". /etc/profile.d/rvm.sh && \
     rvm install ruby-2.6.0 && \
     rvm use 2.6.0 && \
+    export GEM_HOME=\"$HOME/.gem\" && \
     gem install bundler && \
     gem install xcop && \
     gem install pdd && \
