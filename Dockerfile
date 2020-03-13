@@ -176,6 +176,6 @@ RUN rm -rf /usr/lib/node_modules && \
   apt-get install -y nodejs
 
 # Clean up
-RUN rm -rf /tmp/* && rm -rf /root/.ssh
+RUN rm -rf /root/.ssh
 
 ENTRYPOINT ["/bin/bash", "--login", "-c"]
