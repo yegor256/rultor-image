@@ -94,6 +94,7 @@ RUN apt-get update -y --fix-missing && \
   curl -L https://get.rvm.io | sudo bash -s stable && \
   echo "source /usr/local/rvm/scripts/rvm" >> /root/.bashrc && \
   echo "export GEM_HOME=/tmp/gem" >> /root/.bashrc && \
+  echo "export PATH=$PATH:/tmp/gem/bin" >> /root/.bashrc && \
   /bin/bash --login -c ". /etc/profile.d/rvm.sh && \
     rvm install ruby-2.6.0 && \
     rvm use 2.6.0 && \
