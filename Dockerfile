@@ -31,7 +31,7 @@
 # If you are going to use your own container, you may remove them.
 # Rultor has no dependency on these packages.
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER Yegor Bugayenko <yegor256@gmail.com>
 LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="1.0"
 WORKDIR /tmp
@@ -54,7 +54,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Basic Linux tools
-RUN apt-get update -y --fix-missing && apt-get install -y wget bcrypt curl \
+RUN apt-get update -y --fix-missing && apt-get install -y wget curl \
   sudo \
   unzip zip \
   gnupg gnupg2 \
@@ -107,14 +107,6 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \
   apt-get install -y php7.2 php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
   mv composer.phar /usr/local/bin/composer
-RUN mkdir jsl && \
-  wget --quiet http://www.javascriptlint.com/download/jsl-0.3.0-src.tar.gz && \
-  tar xzf jsl-0.3.0-src.tar.gz && \
-  cd jsl-0.3.0/src && \
-  make -f Makefile.ref && \
-  mv Linux_All_DBG.OBJ/jsl /usr/local/bin && \
-  cd .. && \
-  rm -rf jsl
 # RUN pecl install xdebug-beta && \
 #   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
 
@@ -137,7 +129,7 @@ RUN apt-get install -y s3cmd
 
 # Postgresql
 RUN apt-get update -y --fix-missing && \
-  apt-get install -y postgresql-client-10 postgresql-10
+  apt-get install -y postgresql-client postgresql
 USER postgres
 RUN /etc/init.d/postgresql start && \
   psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
@@ -170,7 +162,6 @@ RUN apt-get update -y --fix-missing && \
 
 # NodeJS
 RUN rm -rf /usr/lib/node_modules && \
-  curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
   apt-get install -y nodejs
 
 # Clean up
