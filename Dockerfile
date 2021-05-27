@@ -123,7 +123,7 @@ RUN mkdir /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
-  && echo "selected_scheme scheme-small" > p \
+  && echo "selected_scheme scheme-full" > p \
   && perl ./install-tl --profile=p
 ENV PATH="${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
 RUN tlmgr init-usertree || echo 'Warning ignored'
