@@ -118,7 +118,14 @@ ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 
 # LaTeX
-RUN apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra xzdec
+RUN mkdir /tmp/texlive \
+  && cd /tmp/texlive \
+  && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
+  && unzip ./install-tl.zip -d install-tl \
+  && cd install-tl/install-tl-* \
+  && echo "selected_scheme scheme-small" > p \
+  && perl ./install-tl --profile=p
+ENV PATH="${PATH}:$(ls /usr/local/texlive/2021/bin/x86_64-linux"
 RUN tlmgr init-usertree || echo 'Warning ignored'
 
 # PhantomJS
