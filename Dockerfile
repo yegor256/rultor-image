@@ -125,7 +125,7 @@ RUN mkdir /tmp/texlive \
   && cd install-tl/install-tl-* \
   && echo "selected_scheme scheme-small" > p \
   && perl ./install-tl --profile=p
-ENV PATH="${PATH}:$(ls /usr/local/texlive/2021/bin/x86_64-linux"
+ENV PATH="${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
 RUN tlmgr init-usertree || echo 'Warning ignored'
 
 # PhantomJS
