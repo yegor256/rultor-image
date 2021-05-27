@@ -127,6 +127,7 @@ RUN mkdir /tmp/texlive \
   && perl ./install-tl --profile=p
 ENV PATH="${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
 RUN tlmgr init-usertree || echo 'Warning ignored'
+RUN tlmgr install texliveonfly
 
 # PhantomJS
 RUN apt-get install -y phantomjs
