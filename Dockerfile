@@ -169,6 +169,7 @@ RUN apt-get update -y --fix-missing && \
   apt-get install -y python3.7 && \
   apt-get install -y python3-pip python3.7-dev && \
   apt-get update -y --fix-missing && \
+  ln -s $(which python3) /usr/bin/python && \
   pip3 install --upgrade pip
 
 # NodeJS
