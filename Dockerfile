@@ -123,10 +123,13 @@ RUN mkdir /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
-  && echo "selected_scheme scheme-full" > p \
+  && echo "selected_scheme scheme-small" > p \
   && perl ./install-tl --profile=p
-ENV PATH="${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
-RUN tlmgr init-usertree || echo 'Warning ignored'
+# It's better to do it like this, but Docker has a bug:
+# https://stackoverflow.com/a/41864647/187141
+# ENV PATH "${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
+ENV PATH "${PATH}:/usr/local/texlive/2021/bin/x86_64-linux"
+RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 
 # PhantomJS
