@@ -117,6 +117,9 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 
+# PhantomJS
+RUN apt-get install -y phantomjs
+
 # LaTeX
 RUN mkdir /tmp/texlive \
   && cd /tmp/texlive \
@@ -131,9 +134,6 @@ RUN mkdir /tmp/texlive \
 ENV PATH "${PATH}:/usr/local/texlive/2021/bin/x86_64-linux"
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
-
-# PhantomJS
-RUN apt-get install -y phantomjs
 
 # S3cmd for AWS S3 integration
 RUN apt-get install -y s3cmd
