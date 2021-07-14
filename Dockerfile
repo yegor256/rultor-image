@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2020, Yegor Bugayenko
+# Copyright (c) 2009-2021 Yegor Bugayenko
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 
 FROM ubuntu:20.04
 MAINTAINER Yegor Bugayenko <yegor256@gmail.com>
-LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="1.0"
+LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="1.6.0"
 WORKDIR /tmp
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -80,6 +80,7 @@ RUN apt-get install -y software-properties-common && \
   add-apt-repository ppa:git-core/ppa && \
   apt-get update -y --fix-missing && \
   apt-get install -y git git-core
+RUN git --version
 
 # SSH Daemon
 RUN apt-get install -y ssh && \
@@ -89,17 +90,17 @@ RUN apt-get install -y ssh && \
 # Ruby
 RUN apt-get update -y --fix-missing && \
   apt-get install -y ruby-dev libmagic-dev zlib1g-dev && \
-  gpg2 --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 && \
-  gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
+  gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
   curl -L https://get.rvm.io | sudo bash -s stable && \
   echo "source /usr/local/rvm/scripts/rvm" >> /root/.bashrc && \
   /bin/bash --login -c ". /etc/profile.d/rvm.sh && \
-    rvm install ruby-2.6.0 && \
-    rvm use 2.6.0 && \
+    rvm install ruby-2.7.0 && \
+    rvm use 2.7.0 && \
     gem install bundler && \
     gem install xcop && \
     gem install pdd && \
     gem install est"
+RUN ruby --version
 
 # PHP
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \
@@ -109,6 +110,7 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && \
   mv composer.phar /usr/local/bin/composer
 # RUN pecl install xdebug-beta && \
 #   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
+RUN php --version
 
 # Java
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
@@ -116,6 +118,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3
   && apt-get install -y openjdk-8-jdk ca-certificates maven
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
+RUN java --version
 
 # PhantomJS
 RUN apt-get install -y phantomjs
@@ -126,7 +129,7 @@ RUN mkdir /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
-  && echo "selected_scheme scheme-full" > p \
+  && echo "selected_scheme scheme-small" > p \
   && perl ./install-tl --profile=p
 # It's better to do it like this, but Docker has a bug:
 # https://stackoverflow.com/a/41864647/187141
@@ -134,6 +137,7 @@ RUN mkdir /tmp/texlive \
 ENV PATH "${PATH}:/usr/local/texlive/2021/bin/x86_64-linux"
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
+RUN pdflatex --version
 
 # S3cmd for AWS S3 integration
 RUN apt-get install -y s3cmd
@@ -148,6 +152,7 @@ RUN /etc/init.d/postgresql start && \
 EXPOSE 5432
 USER root
 ENV PATH="${PATH}:/usr/lib/postgresql/12/bin"
+RUN initdb --version
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
@@ -161,6 +166,7 @@ RUN wget --quiet "http://mirror.dkd.de/apache/maven/maven-3/${MAVEN_VERSION}/bin
   update-alternatives --config mvn && \
   mvn -version
 COPY settings.xml /root/.m2/settings.xml
+RUN mvn --version
 
 # Python3
 RUN add-apt-repository -y ppa:deadsnakes/ppa
@@ -171,10 +177,13 @@ RUN apt-get update -y --fix-missing && \
   apt-get update -y --fix-missing && \
   ln -s $(which python3) /usr/bin/python && \
   pip3 install --upgrade pip
+RUN python --version
+RUN pip --version
 
 # NodeJS
 RUN rm -rf /usr/lib/node_modules && \
   apt-get install -y nodejs
+RUN nodejs --version
 
 # Clean up
 RUN rm -rf /root/.ssh
