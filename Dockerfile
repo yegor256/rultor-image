@@ -115,7 +115,7 @@ RUN php --version
 # Java
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
   && apt-get update -y --fix-missing \
-  && apt-get install -y openjdk-8-jdk ca-certificates maven
+  && apt-get install -y default-jdk ca-certificates maven
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 RUN java --version
