@@ -118,6 +118,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3
   && apt-get install -y default-jdk ca-certificates maven
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
+ENV JAVA_HOME "/usr/lib/jvm/default-java"
 RUN java --version
 
 # PhantomJS
