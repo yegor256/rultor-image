@@ -139,6 +139,8 @@ ENV PATH "${PATH}:/usr/local/texlive/2022/bin/x86_64-linux"
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 RUN pdflatex --version
+RUN tlmgr install latexmk
+RUN latexmk --version
 
 # S3cmd for AWS S3 integration
 RUN apt-get install -y s3cmd
