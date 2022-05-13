@@ -3,6 +3,23 @@
 
 This is the default Docker image for [Rultor](https://www.rultor.com).
 
+This image has the following product installed, in latest versions:
+
+  * Git
+  * sshd
+  * Ruby
+  * PHP
+  * Java
+  * PhantomJS
+  * TeXLive
+  * s3cmd
+  * PostgreSQL
+  * Maven
+  * Python
+  * NodeJS
+
+Feel free to add yours by submitting a pull request.
+
 To use Java 8 do this:
 
 ```
