@@ -187,6 +187,7 @@ RUN pip --version
 RUN rm -rf /usr/lib/node_modules && \
   apt-get install -y nodejs
 RUN nodejs --version
+RUN apt-get install npm
 
 # Clean up
 RUN rm -rf /root/.ssh
