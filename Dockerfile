@@ -185,9 +185,10 @@ RUN pip --version
 
 # NodeJS
 RUN rm -rf /usr/lib/node_modules && \
+  (curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -) && \
   apt-get install -y nodejs
-RUN nodejs --version
-RUN apt-get -y install npm
+RUN node --version
+RUN npm --version
 
 # Clean up
 RUN rm -rf /root/.ssh
