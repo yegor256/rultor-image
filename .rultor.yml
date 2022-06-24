@@ -1,0 +1,9 @@
+assets:
+  docker-password: yegor256/home#assets/docker-password
+release:
+  script: |-
+    [[ "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit -1
+    repo=yegor256/rultor-image
+    docker build . --tag "${repo}:${tag}"
+    cat ../docker-password | docker login --password-stdin --username yegor256
+    docker push "${repo}:${tag}"

@@ -113,9 +113,8 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && \
 RUN php --version
 
 # Java
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 E1DF1F24 3DD9F856 \
-  && apt-get update -y --fix-missing \
-  && apt-get install -y default-jdk ca-certificates maven
+RUN apt-get install -y ca-certificates openjdk-17-jdk
+RUN apt-get install -y maven
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/default-java"
