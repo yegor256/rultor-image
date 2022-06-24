@@ -114,7 +114,6 @@ RUN php --version
 
 # Java
 RUN apt-get install -y ca-certificates openjdk-17-jdk
-RUN apt-get install -y maven
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/default-java"
@@ -158,7 +157,7 @@ RUN initdb --version
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
-ENV MAVEN_VERSION 3.8.5
+ENV MAVEN_VERSION 3.8.6
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
 RUN wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
   mkdir -p /usr/local/apache-maven && \
