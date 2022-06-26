@@ -116,7 +116,7 @@ RUN php --version
 RUN apt-get install -y ca-certificates openjdk-17-jdk
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
-ENV JAVA_HOME "/usr/lib/jvm/default-java"
+ENV JAVA_HOME "/usr/lib/jvm/java-17-openjdk-amd64"
 RUN java --version
 
 # PhantomJS
