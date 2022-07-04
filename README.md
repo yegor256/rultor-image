@@ -1,7 +1,7 @@
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/yegor256/rultor-image)](https://hub.docker.com/r/yegor256/rultor-image)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/total/rultor-image/master/LICENSE.txt)
 
-This is the default Docker image for [Rultor](https://www.rultor.com), avaiable in
+This is the default Docker image for [Rultor](https://www.rultor.com), available in
 Docker Hub as [`yegor256/rultor-image`](https://hub.docker.com/r/yegor256/rultor-image).
 
 This image has the following product installed, in latest versions:
@@ -20,12 +20,6 @@ This image has the following product installed, in latest versions:
   * NodeJS
 
 Feel free to add yours by submitting a pull request.
-
-To use Java 8 do this:
-
-```
-$ update-java-alternatives -s java-1.8.0-openjdk-amd64
-```
 
 To release a new version of this Docker image:
 
