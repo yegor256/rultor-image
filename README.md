@@ -19,6 +19,13 @@ This image has the following product installed, in latest versions:
   * Python
   * NodeJS
 
+To use Java 17 do this:
+
+```
+$ update-java-alternatives --set java-1.17.0-openjdk-amd64
+$ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+```
+
 Feel free to add yours by submitting a pull request.
 
 To release a new version of this Docker image:
