@@ -113,10 +113,11 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && \
 RUN php --version
 
 # Java
-RUN apt-get install -y ca-certificates openjdk-17-jdk
+RUN apt-get install -y ca-certificates openjdk-11-jdk openjdk-17-jdk
+RUN update-java-alternatives --set java-1.11.0-openjdk-amd64
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
-ENV JAVA_HOME "/usr/lib/jvm/java-17-openjdk-amd64"
+ENV JAVA_HOME "/usr/lib/jvm/java-11-openjdk-amd64"
 RUN java --version
 
 # PhantomJS
