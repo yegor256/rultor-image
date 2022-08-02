@@ -192,7 +192,9 @@ RUN npm --version
 # Rust and Cargo
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
-RUN "${HOME}/.cargo/bin/rustup" toolchain install stable
+RUN source "${HOME}/.cargo/env"
+RUN rustup toolchain install stable
+RUN cargo --version
 
 # Clean up
 RUN rm -rf /root/.ssh
