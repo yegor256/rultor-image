@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2021 Yegor Bugayenko
+# Copyright (c) 2009-2022 Yegor Bugayenko
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 
 FROM ubuntu:20.04
 MAINTAINER Yegor Bugayenko <yegor256@gmail.com>
-LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="1.6.0"
+LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="0.0.0"
 WORKDIR /tmp
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -191,8 +191,8 @@ RUN npm --version
 
 # Rust and Cargo
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
-ENV PATH="${PATH}:$HOME/.cargo/bin"
-RUN rustup toolchain install stable
+ENV PATH="${PATH}:${HOME}/.cargo/bin"
+RUN "${HOME}/.cargo/bin/rustup" toolchain install stable
 RUN cargo --version
 
 # Clean up
