@@ -189,6 +189,12 @@ RUN rm -rf /usr/lib/node_modules && \
 RUN node --version
 RUN npm --version
 
+# Rust and Cargo
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH="${PATH}:$HOME/.cargo/bin"
+RUN rustup toolchain install stable
+RUN cargo --version
+
 # Clean up
 RUN rm -rf /root/.ssh
 
