@@ -50,11 +50,11 @@ RUN apt-get clean && \
   dpkg-reconfigure locales && \
   echo "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale
 ENV LC_ALL en_US.UTF-8
-RUN echo 'LC_ALL=en_US.UTF-8' >> /root/.profile
+RUN echo 'export LC_ALL=en_US.UTF-8' >> /root/.profile
 ENV LANG en_US.UTF-8
-RUN echo 'LANG=en_US.UTF-8' >> /root/.profile
+RUN echo 'export LANG=en_US.UTF-8' >> /root/.profile
 ENV LANGUAGE en_US.UTF-8
-RUN echo 'LANGUAGE=en_US.UTF-8' >> /root/.profile
+RUN echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
 
 # Basic Linux tools
 RUN apt-get update -y --fix-missing && apt-get install -y wget curl \
@@ -121,7 +121,7 @@ RUN update-java-alternatives --set java-1.11.0-openjdk-amd64
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/java-11-openjdk-amd64"
-RUN echo 'JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /root/.profile
+RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /root/.profile
 RUN java --version
 
 # PhantomJS
@@ -139,7 +139,7 @@ RUN mkdir /tmp/texlive \
 # https://stackoverflow.com/a/41864647/187141
 # ENV PATH "${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
 ENV PATH "${PATH}:/usr/local/texlive/2022/bin/x86_64-linux"
-RUN echo 'PATH=${PATH}:/usr/local/texlive/2022/bin/x86_64-linux' >> /root/.profile
+RUN echo 'export PATH=${PATH}:/usr/local/texlive/2022/bin/x86_64-linux' >> /root/.profile
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 RUN pdflatex --version
@@ -159,14 +159,14 @@ RUN /etc/init.d/postgresql start && \
 EXPOSE 5432
 USER root
 ENV PATH="${PATH}:/usr/lib/postgresql/12/bin"
-RUN echo 'PATH=${PATH}:/usr/lib/postgresql/12/bin' >> /root/.profile
+RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/12/bin' >> /root/.profile
 RUN initdb --version
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
 ENV MAVEN_VERSION 3.8.6
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
-RUN echo 'M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile
+RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile
 RUN wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
   mkdir -p /usr/local/apache-maven && \
   mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven && \
@@ -199,7 +199,7 @@ RUN npm --version
 # Rust and Cargo
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
-RUN echo 'PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
+RUN echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
 RUN ${HOME}/.cargo/bin/rustup toolchain install stable
 
 # Clean up
