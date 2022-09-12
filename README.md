@@ -27,11 +27,3 @@ $ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ```
 
 Feel free to add yours by submitting a pull request.
-
-To release a new version of this Docker image:
-
-```
-$ docker build . --tag yegor256/rultor-image:1.8.0
-$ docker push yegor256/rultor-image:1.8.0
-$ git tag 1.8.0
-```
