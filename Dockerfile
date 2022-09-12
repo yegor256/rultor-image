@@ -133,7 +133,7 @@ RUN mkdir /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
-  && echo "selected_scheme scheme-small" > p \
+  && echo "selected_scheme scheme-full" > p \
   && perl ./install-tl --profile=p
 # It's better to do it like this, but Docker has a bug:
 # https://stackoverflow.com/a/41864647/187141
@@ -204,6 +204,8 @@ RUN ${HOME}/.cargo/bin/rustup toolchain install stable
 
 # Clean up
 RUN rm -rf /root/.ssh
+RUN rm -rf /root.cache
+RUN rm -rf /root.wget-hsts
 RUN rm -rf /root/.gnupg
 
 ENTRYPOINT ["/bin/bash", "--login", "-c"]
