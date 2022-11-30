@@ -65,6 +65,7 @@ RUN apt-get update -y --fix-missing && apt-get install -y wget curl \
   netcat-openbsd \
   bsdmainutils \
   libxml2-utils \
+  libjpeg-dev \
   build-essential \
   automake autoconf \
   chrpath libxft-dev \
