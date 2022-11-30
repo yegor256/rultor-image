@@ -207,6 +207,10 @@ RUN apt-get update -y --fix-missing && \
 RUN python --version
 RUN pip --version
 
+# Pygments
+RUN apt-get install -y python3-pygments
+RUN pip3 install pygments
+
 # NodeJS
 RUN rm -rf /usr/lib/node_modules && \
   (curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -) && \
