@@ -66,6 +66,8 @@ RUN apt-get update -y --fix-missing && apt-get install -y wget curl \
   bsdmainutils \
   libxml2-utils \
   libjpeg-dev \
+  aspell \
+  ghostscript \
   build-essential \
   automake autoconf \
   chrpath libxft-dev \
