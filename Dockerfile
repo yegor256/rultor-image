@@ -149,6 +149,18 @@ RUN pdflatex --version
 RUN tlmgr install latexmk
 RUN latexmk --version
 
+# QPDF
+RUN mkdir /tmp/qpdf \
+  && cd /tmp/qpdf \
+  && git clone https://github.com/qpdf/qpdf \
+  && cd qpdf \
+  && cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  && cmake --build build \
+  && cmake --install build \
+  && export LD_LIBRARY_PATH=/usr/local/lib \
+  && ldconfig \
+  && qpdf --version
+
 # S3cmd for AWS S3 integration
 RUN apt-get install -y s3cmd
 
