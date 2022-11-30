@@ -71,6 +71,9 @@ RUN apt-get update -y --fix-missing && apt-get install -y wget curl \
   libfreetype6 libfreetype6-dev \
   libfontconfig1 libfontconfig1-dev
 
+# CMake for C/C++ projects
+RUN apt-get -y install cmake
+
 # Docker cli
 RUN mkdir -p /tmp/download \
   && curl -s -L "https://download.docker.com/linux/static/stable/x86_64/docker-18.06.3-ce.tgz" | \
