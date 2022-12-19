@@ -225,6 +225,11 @@ ENV PATH="${PATH}:${HOME}/.cargo/bin"
 RUN echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
 RUN ${HOME}/.cargo/bin/rustup toolchain install stable
 
+# Go
+RUN apt-get update
+RUN apt-get install -y golang
+RUN go version
+
 # Clean up
 RUN rm -rf /root/.ssh
 RUN rm -rf /root.cache
