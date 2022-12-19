@@ -19,6 +19,7 @@ This image has the following product installed, in latest versions:
   * Maven
   * Python
   * NodeJS
+  * Go
 
 To use Java 17 do this:
 
