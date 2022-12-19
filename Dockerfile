@@ -104,7 +104,8 @@ RUN apt-get update -y --fix-missing && \
   echo "source /usr/local/rvm/scripts/rvm" >> /root/.profile && \
   /bin/bash --login -c ". /etc/profile.d/rvm.sh && \
     rvm install ruby-2.7.0 && \
-    rvm use 2.7.0 && \
+    rvm install ruby-3.3.0 && \
+    rvm use 3.3.0 && \
     gem install bundler && \
     gem install xcop && \
     gem install pdd && \
