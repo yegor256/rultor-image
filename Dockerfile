@@ -43,10 +43,10 @@ RUN mkdir ~/.gnupg
 RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # UTF-8 locale
-RUN apt-get clean && \
-  apt-get update -y --fix-missing && \
-  apt-get install -y locales && \
-  locale-gen en_US.UTF-8 && \
+RUN apt-get clean
+RUN apt-get update -y --fix-missing
+RUN apt-get -y install locales=2.31-0ubuntu9.9
+RUN locale-gen en_US.UTF-8 && \
   dpkg-reconfigure locales && \
   echo "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale
 ENV LC_ALL en_US.UTF-8
@@ -57,82 +57,29 @@ ENV LANGUAGE en_US.UTF-8
 RUN echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
 
 # Basic Linux tools
-RUN apt-get update -y --fix-missing && apt-get install -y wget curl \
-  sudo \
-  unzip zip \
-  gnupg gnupg2 \
-  jq \
-  netcat-openbsd \
-  bsdmainutils \
-  libxml2-utils \
-  libjpeg-dev \
-  aspell \
-  ghostscript \
-  build-essential \
-  automake autoconf \
-  chrpath libxft-dev \
-  libfreetype6 libfreetype6-dev \
-  libfontconfig1 libfontconfig1-dev
-
-# CMake for C/C++ projects
-RUN apt-get -y install cmake
-
-# Docker cli
-RUN mkdir -p /tmp/download \
-  && curl -s -L "https://download.docker.com/linux/static/stable/x86_64/docker-18.06.3-ce.tgz" | \
-    tar -xz -C /tmp/download \
-  && mv /tmp/download/docker/docker /usr/bin/ \
-  && rm -rf /tmp/download
-
-# Git 2.0
-RUN apt-get install -y software-properties-common && \
-  add-apt-repository ppa:git-core/ppa && \
-  apt-get update -y --fix-missing && \
-  apt-get install -y git git-core
-RUN git --version
-
-# SSH Daemon
-RUN apt-get install -y ssh && \
-  mkdir /var/run/sshd && \
-  chmod 0755 /var/run/sshd
-
-# Ruby
-RUN apt-get update -y --fix-missing && \
-  apt-get install -y ruby-dev libmagic-dev zlib1g-dev && \
-  gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
-  curl -L https://get.rvm.io | sudo bash -s stable && \
-  echo "source /usr/local/rvm/scripts/rvm" >> /root/.profile && \
-  /bin/bash --login -c ". /etc/profile.d/rvm.sh && \
-    rvm install ruby-2.7.0 && \
-    rvm install ruby-3.0.1 && \
-    rvm use 3.0.1 && \
-    gem install bundler && \
-    gem install xcop && \
-    gem install pdd && \
-    gem install est"
-RUN ruby --version
-
-# PHP
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && \
-  apt-get update -y --fix-missing && \
-  apt-get install -y php7.2 php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml
-RUN curl --silent --show-error https://getcomposer.org/installer | php && \
-  mv composer.phar /usr/local/bin/composer
-# RUN pecl install xdebug-beta && \
-#   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
-RUN php --version
-
-# Java
-RUN apt-get install -y ca-certificates openjdk-11-jdk openjdk-17-jdk
-RUN update-java-alternatives --set java-1.11.0-openjdk-amd64
-ENV MAVEN_OPTS "-Xmx1g"
-ENV JAVA_OPTS "-Xmx1g"
-ENV JAVA_HOME "/usr/lib/jvm/java-11-openjdk-amd64"
-RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /root/.profile
-RUN java --version
-
-# PhantomJS
-RUN apt-get install -y phantomjs
+RUN apt-get -y install wget=1.20.3-1ubuntu2
+RUN apt-get -y install curl=7.68.0-1ubuntu2.14
+RUN apt-get -y install sudo=1.8.31-1ubuntu1.2
+RUN apt-get -y install unzip=6.0-25ubuntu1.1
+RUN apt-get -y install zip=3.0-11build1
+RUN apt-get -y install gnupg2=2.2.19-3ubuntu2.2
+RUN apt-get -y install jq=1.6-1ubuntu0.20.04.1
+RUN apt-get -y install netcat-openbsd=1.206-1ubuntu1
+RUN apt-get -y install bsdmainutils=11.1.2ubuntu3
+RUN apt-get -y install libxml2-utils=2.9.10+dfsg-5ubuntu0.20.04.5
+RUN apt-get -y install libjpeg-dev=8c-2ubuntu8
+RUN apt-get -y install aspell=0.60.8-1ubuntu0.1
+RUN apt-get -y install ghostscript=9.50~dfsg-5ubuntu4.6
+RUN apt-get -y install build-essential=12.8ubuntu1.1
+RUN apt-get -y install automake=1:1.16.1-4ubuntu6
+RUN apt-get -y install autoconf=2.69-11.1
+RUN apt-get -y install chrpath=0.16-2
+RUN apt-get -y install libxft-dev=2.3.3-0ubuntu1
+RUN apt-get -y install libfreetype6=2.10.1-2ubuntu0.2
+RUN apt-get -y install libfreetype6-dev=2.10.1-2ubuntu0.2
+RUN apt-get -y install libfontconfig1=2.13.1-2ubuntu3
+RUN apt-get -y install libfontconfig1-dev=2.13.1-2ubuntu3
+RUN apt-get -y install software-properties-common=0.99.9.8
 
 # LaTeX
 RUN mkdir /tmp/texlive \
@@ -140,7 +87,7 @@ RUN mkdir /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
-  && echo "selected_scheme scheme-full" > p \
+  && echo "selected_scheme scheme-small" > p \
   && perl ./install-tl --profile=p
 # It's better to do it like this, but Docker has a bug:
 # https://stackoverflow.com/a/41864647/187141
@@ -150,27 +97,99 @@ RUN echo 'export PATH=${PATH}:/usr/local/texlive/2022/bin/x86_64-linux' >> /root
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 RUN pdflatex --version
+RUN bash -c '[[ "$(pdflatex --version)" =~ '2.6-1.40.24' ]]'
 RUN tlmgr install latexmk
-RUN latexmk --version
+RUN bash -c '[[ "$(latexmk --version)" =~ '4.78' ]]'
+
+# CMake for C/C++ projects
+RUN apt-get -y install cmake=3.16.3-1ubuntu1.20.04.1
+
+# Docker cli
+RUN mkdir -p /tmp/download \
+  && curl -s -L "https://download.docker.com/linux/static/stable/x86_64/docker-18.06.3-ce.tgz" | \
+    tar -xz -C /tmp/download \
+  && mv /tmp/download/docker/docker /usr/bin/ \
+  && rm -rf /tmp/download
+
+# Git 2.0
+RUN add-apt-repository ppa:git-core/ppa
+RUN apt-get update -y --fix-missing
+RUN apt-get -y install git=1:2.39.0-0ppa1~ubuntu20.04.1
+RUN bash -c '[[ "$(git --version)" =~ '2.39' ]]'
+
+# SSH Daemon
+RUN apt-get -y install ssh=1:8.2p1-4ubuntu0.5
+RUN mkdir /var/run/sshd && \
+  chmod 0755 /var/run/sshd
+
+# Ruby
+RUN apt-get -y install ruby-dev=1:2.7+1
+RUN apt-get -y install libmagic-dev=1:5.38-4
+RUN apt-get -y install zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.5
+RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+RUN curl -L https://get.rvm.io | sudo bash -s stable
+RUN echo "source /usr/local/rvm/scripts/rvm" >> /root/.profile
+RUN echo "source /usr/local/rvm/scripts/rvm" >> /root/.bashrc
+RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.0"
+RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1"
+RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm use 3.0.1"
+RUN bash -l -c ". /etc/profile.d/rvm.sh && \
+  gem install bundler -v 2.3.26 && \
+  gem install xcop -v 0.7.1 && \
+  gem install pdd -v 0.22.0 && \
+  gem install est -v 0.3.4"
+
+# PHP
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+RUN apt-get update -y --fix-missing
+RUN apt-get -y install php7.2=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php-pear=1:1.10.13+submodules+notgz+2022032202-2+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-curl=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-dev=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-gd=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-mbstring=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-zip=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-mysql=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN apt-get -y install php7.2-xml=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
+RUN curl --silent --show-error https://getcomposer.org/installer | php && \
+  mv composer.phar /usr/local/bin/composer
+# RUN pecl install xdebug-beta && \
+#   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
+RUN bash -c '[[ "$(php --version)" =~ '7.2' ]]'
+
+# Java
+RUN apt-get -y install ca-certificates=20211016ubuntu0.20.04.1
+RUN apt-get -y install openjdk-11-jdk=11.0.17+8-1ubuntu2~20.04
+RUN apt-get -y install openjdk-17-jdk=17.0.5+8-2ubuntu1~20.04
+RUN update-java-alternatives --set java-1.11.0-openjdk-amd64
+ENV MAVEN_OPTS "-Xmx1g"
+ENV JAVA_OPTS "-Xmx1g"
+ENV JAVA_HOME "/usr/lib/jvm/java-11-openjdk-amd64"
+RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /root/.profile
+RUN bash -c '[[ "$(javac --version)" =~ '11.0' ]]'
+
+# PhantomJS
+RUN apt-get -y install phantomjs=2.1.1+dfsg-2ubuntu1
 
 # QPDF
-RUN mkdir /tmp/qpdf \
-  && cd /tmp/qpdf \
+RUN cd /tmp \
   && git clone https://github.com/qpdf/qpdf \
   && cd qpdf \
+  && git checkout v11.2.0 \
   && cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo \
   && cmake --build build \
   && cmake --install build \
   && export LD_LIBRARY_PATH=/usr/local/lib \
   && ldconfig \
-  && qpdf --version
+  && bash -c '[[ "$(qpdf --version)" =~ '11.2.0' ]]'
 
 # S3cmd for AWS S3 integration
-RUN apt-get install -y s3cmd
+RUN apt-get -y install s3cmd=2.0.2-1ubuntu1
 
 # Postgresql
-RUN apt-get update -y --fix-missing && \
-  apt-get install -y postgresql-client postgresql
+RUN apt-get -y install postgresql-client=12+214ubuntu0.1
+RUN apt-get -y install postgresql=12+214ubuntu0.1
+RUN bash -c '[[ "$(psql --version)" =~ '12.12' ]]'
 USER postgres
 RUN /etc/init.d/postgresql start && \
   psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
@@ -179,7 +198,7 @@ EXPOSE 5432
 USER root
 ENV PATH="${PATH}:/usr/lib/postgresql/12/bin"
 RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/12/bin' >> /root/.profile
-RUN initdb --version
+RUN bash -c '[[ "$(initdb --version)" =~ '12.12' ]]'
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
@@ -194,38 +213,43 @@ RUN wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
   update-alternatives --config mvn && \
   mvn -version
 COPY settings.xml /root/.m2/settings.xml
-RUN mvn --version
+RUN bash -c '[[ "$(mvn --version)" =~ ${MAVEN_VERSION} ]]'
 
 # Python3
 RUN add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt-get update -y --fix-missing && \
-  apt-get install -y build-essential libpq-dev libssl-dev openssl libffi-dev zlib1g-dev && \
-  apt-get install -y python3.7 && \
-  apt-get install -y python3-pip python3.7-dev && \
-  apt-get update -y --fix-missing && \
-  ln -s $(which python3) /usr/bin/python && \
-  pip3 install --upgrade pip
-RUN python --version
-RUN pip --version
+RUN apt-get update -y --fix-missing
+RUN apt-get -y install libpq-dev=12.12-0ubuntu0.20.04.1
+RUN apt-get -y install libssl-dev=1.1.1f-1ubuntu2.16
+RUN apt-get -y install openssl=1.1.1f-1ubuntu2.16
+RUN apt-get -y install libffi-dev=3.3-4
+RUN apt-get -y install python3.7=3.7.16-1+focal1
+RUN apt-get -y install python3-pip=20.0.2-5ubuntu1.6
+RUN apt-get -y install python3.7-dev=3.7.16-1+focal1
+RUN ln -s $(which python3) /usr/bin/python
+RUN pip3 install -Iv --upgrade pip==22.3.1
+RUN bash -c '[[ "$(python --version)" =~ '3.8.10' ]]'
+RUN bash -c '[[ "$(pip --version)" =~ '22.3.1' ]]'
 
 # Pygments
-RUN apt-get install -y python3-pygments
-RUN pip3 install pygments
+RUN apt-get -y install python3-pygments=2.3.1+dfsg-1ubuntu2.2
+RUN pip3 install -Iv pygments==2.13.0
 
 # NodeJS
 RUN rm -rf /usr/lib/node_modules && \
-  (curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -) && \
-  apt-get install -y nodejs
-RUN node --version
-RUN npm --version
+  (curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -)
+RUN apt-get -y install nodejs=17.9.0-deb-1nodesource1
+RUN bash -c '[[ "$(node --version)" =~ '17.9.0' ]]'
+RUN bash -c '[[ "$(npm --version)" =~ '8.5.5' ]]'
 
 # Rust and Cargo
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
 RUN echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
 RUN ${HOME}/.cargo/bin/rustup toolchain install stable
+RUN bash -c '[[ "$(${HOME}/.cargo/bin/cargo --version)" =~ '1.66.0' ]]'
 
 # Clean up
+RUN rm -rf /tmp/*
 RUN rm -rf /root/.ssh
 RUN rm -rf /root.cache
 RUN rm -rf /root.wget-hsts
