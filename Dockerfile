@@ -97,9 +97,9 @@ RUN echo 'export PATH=${PATH}:/usr/local/texlive/2022/bin/x86_64-linux' >> /root
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 RUN pdflatex --version
-RUN bash -c '[[ "$(pdflatex --version)" =~ '2.6-1.40.24' ]]'
+RUN bash -c '[[ "$(pdflatex --version)" =~ "2.6" ]]'
 RUN tlmgr install latexmk
-RUN bash -c '[[ "$(latexmk --version)" =~ '4.78' ]]'
+RUN bash -c '[[ "$(latexmk --version)" =~ "4.78" ]]'
 
 # CMake for C/C++ projects
 RUN apt-get -y install cmake=3.16.3-1ubuntu1.20.04.1
@@ -115,7 +115,7 @@ RUN mkdir -p /tmp/download \
 RUN add-apt-repository ppa:git-core/ppa
 RUN apt-get update -y --fix-missing
 RUN apt-get -y install git=1:2.39.0-0ppa1~ubuntu20.04.1
-RUN bash -c '[[ "$(git --version)" =~ '2.39' ]]'
+RUN bash -c '[[ "$(git --version)" =~ "2.39" ]]'
 
 # SSH Daemon
 RUN apt-get -y install ssh=1:8.2p1-4ubuntu0.5
@@ -128,15 +128,15 @@ RUN apt-get -y install libmagic-dev=1:5.38-4
 RUN apt-get -y install zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.5
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN curl -L https://get.rvm.io | sudo bash -s stable
-RUN echo "source /usr/local/rvm/scripts/rvm" >> /root/.profile
-RUN echo "source /usr/local/rvm/scripts/rvm" >> /root/.bashrc
+RUN echo "source /usr/local/rvm/scripts/rvm && rvm use 3.0.1 && rvm default 3.0.1" >> /root/.bashrc
 RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.0"
 RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1"
-RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm use 3.0.1"
+RUN echo 'gem: --no-document' >> ~/.gemrc
 RUN bash -l -c ". /etc/profile.d/rvm.sh && \
+  rvm use 3.0.1 && \
   gem install bundler -v 2.3.26 && \
   gem install xcop -v 0.7.1 && \
-  gem install pdd -v 0.22.0 && \
+  gem install pdd -v 0.23.1 && \
   gem install est -v 0.3.4"
 
 # PHP
@@ -151,11 +151,11 @@ RUN apt-get -y install php7.2-mbstring=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
 RUN apt-get -y install php7.2-zip=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
 RUN apt-get -y install php7.2-mysql=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
 RUN apt-get -y install php7.2-xml=7.2.34-36+ubuntu20.04.1+deb.sury.org+1
-RUN curl --silent --show-error https://getcomposer.org/installer | php && \
-  mv composer.phar /usr/local/bin/composer
+RUN curl --silent --show-error https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
 # RUN pecl install xdebug-beta && \
 #   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
-RUN bash -c '[[ "$(php --version)" =~ '7.2' ]]'
+RUN bash -c '[[ "$(php --version)" =~ "7.2" ]]'
 
 # Java
 RUN apt-get -y install ca-certificates=20211016ubuntu0.20.04.1
@@ -166,7 +166,7 @@ ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
 ENV JAVA_HOME "/usr/lib/jvm/java-11-openjdk-amd64"
 RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /root/.profile
-RUN bash -c '[[ "$(javac --version)" =~ '11.0' ]]'
+RUN bash -c '[[ "$(javac --version)" =~ "11.0" ]]'
 
 # PhantomJS
 RUN apt-get -y install phantomjs=2.1.1+dfsg-2ubuntu1
@@ -180,8 +180,8 @@ RUN cd /tmp \
   && cmake --build build \
   && cmake --install build \
   && export LD_LIBRARY_PATH=/usr/local/lib \
-  && ldconfig \
-  && bash -c '[[ "$(qpdf --version)" =~ '11.2.0' ]]'
+  && ldconfig
+RUN bash -c '[[ "$(qpdf --version)" =~ "11.2" ]]'
 
 # S3cmd for AWS S3 integration
 RUN apt-get -y install s3cmd=2.0.2-1ubuntu1
@@ -189,7 +189,7 @@ RUN apt-get -y install s3cmd=2.0.2-1ubuntu1
 # Postgresql
 RUN apt-get -y install postgresql-client=12+214ubuntu0.1
 RUN apt-get -y install postgresql=12+214ubuntu0.1
-RUN bash -c '[[ "$(psql --version)" =~ '12.12' ]]'
+RUN bash -c '[[ "$(psql --version)" =~ "12.12" ]]'
 USER postgres
 RUN /etc/init.d/postgresql start && \
   psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
@@ -198,7 +198,7 @@ EXPOSE 5432
 USER root
 ENV PATH="${PATH}:/usr/lib/postgresql/12/bin"
 RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/12/bin' >> /root/.profile
-RUN bash -c '[[ "$(initdb --version)" =~ '12.12' ]]'
+RUN bash -c '[[ "$(initdb --version)" =~ "12.12" ]]'
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
@@ -213,7 +213,7 @@ RUN wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binari
   update-alternatives --config mvn && \
   mvn -version
 COPY settings.xml /root/.m2/settings.xml
-RUN bash -c '[[ "$(mvn --version)" =~ ${MAVEN_VERSION} ]]'
+RUN bash -c '[[ "$(mvn --version)" =~ "${MAVEN_VERSION}" ]]'
 
 # Python3
 RUN add-apt-repository -y ppa:deadsnakes/ppa
@@ -227,8 +227,8 @@ RUN apt-get -y install python3-pip=20.0.2-5ubuntu1.6
 RUN apt-get -y install python3.7-dev=3.7.16-1+focal1
 RUN ln -s $(which python3) /usr/bin/python
 RUN pip3 install -Iv --upgrade pip==22.3.1
-RUN bash -c '[[ "$(python --version)" =~ '3.8.10' ]]'
-RUN bash -c '[[ "$(pip --version)" =~ '22.3.1' ]]'
+RUN bash -c '[[ "$(python --version)" =~ "3.8" ]]'
+RUN bash -c '[[ "$(pip --version)" =~ "22.3" ]]'
 
 # Pygments
 RUN apt-get -y install python3-pygments=2.3.1+dfsg-1ubuntu2.2
@@ -238,15 +238,15 @@ RUN pip3 install -Iv pygments==2.13.0
 RUN rm -rf /usr/lib/node_modules && \
   (curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -)
 RUN apt-get -y install nodejs=17.9.0-deb-1nodesource1
-RUN bash -c '[[ "$(node --version)" =~ '17.9.0' ]]'
-RUN bash -c '[[ "$(npm --version)" =~ '8.5.5' ]]'
+RUN bash -c '[[ "$(node --version)" =~ "17.9" ]]'
+RUN bash -c '[[ "$(npm --version)" =~ "8.5" ]]'
 
 # Rust and Cargo
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
 RUN echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
 RUN ${HOME}/.cargo/bin/rustup toolchain install stable
-RUN bash -c '[[ "$(${HOME}/.cargo/bin/cargo --version)" =~ '1.66.0' ]]'
+RUN bash -c '[[ "$(${HOME}/.cargo/bin/cargo --version)" =~ "1.66" ]]'
 
 # Clean up
 RUN rm -rf /tmp/*
