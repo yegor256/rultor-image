@@ -58,6 +58,7 @@ RUN echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
 
 # Basic Linux tools
 RUN apt-get -y install wget=1.20.3-1ubuntu2
+RUN apt-get -y install vim=2:8.1.2269-1ubuntu5.9
 RUN apt-get -y install curl=7.68.0-1ubuntu2.14
 RUN apt-get -y install sudo=1.8.31-1ubuntu1.2
 RUN apt-get -y install unzip=6.0-25ubuntu1.1
@@ -128,7 +129,7 @@ RUN apt-get -y install libmagic-dev=1:5.38-4
 RUN apt-get -y install zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.5
 RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN curl -L https://get.rvm.io | sudo bash -s stable
-RUN echo "source /usr/local/rvm/scripts/rvm && rvm use 3.0.1 && rvm default 3.0.1" >> /root/.bashrc
+RUN echo "source /usr/local/rvm/scripts/rvm && rvm use 3.0.1 && rvm default 3.0.1" >> /root/.profile
 RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.0"
 RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1"
 RUN echo 'gem: --no-document' >> ~/.gemrc
