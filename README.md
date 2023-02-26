@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yegor256/total/rultor-image/master/LICENSE.txt)
 
 This is the default Docker image for [Rultor](https://www.rultor.com), available in
-Docker Hub as [`yegor256/rultor-image`](https://hub.docker.com/r/yegor256/rultor-image).
+Docker Hub as [`l3r8y/rultor-image`](https://hub.docker.com/r/l3r8y/rultor-image).
 
 This image has the following product installed, in latest versions:
 
