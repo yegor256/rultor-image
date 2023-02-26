@@ -32,7 +32,7 @@
 # Rultor has no dependency on these packages.
 
 FROM ubuntu:20.04
-MAINTAINER Yegor Bugayenko <yegor256@gmail.com>
+MAINTAINER Ivan Ivanchuck <l3r8yJ@duck.com>
 LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="0.0.0"
 WORKDIR /tmp
 
@@ -160,14 +160,13 @@ RUN bash -c '[[ "$(php --version)" =~ "7.2" ]]'
 
 # Java
 RUN apt-get -y install ca-certificates=20211016ubuntu0.20.04.1
-RUN apt-get -y install openjdk-11-jdk=11.0.17+8-1ubuntu2~20.04
 RUN apt-get -y install openjdk-17-jdk=17.0.5+8-2ubuntu1~20.04
-RUN update-java-alternatives --set java-1.11.0-openjdk-amd64
+RUN update-java-alternatives --set java-1.17.0-openjdk-amd64
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
-ENV JAVA_HOME "/usr/lib/jvm/java-11-openjdk-amd64"
-RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> /root/.profile
-RUN bash -c '[[ "$(javac --version)" =~ "11.0" ]]'
+ENV JAVA_HOME "/usr/lib/jvm/java-17-openjdk-amd64"
+RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64' >> /root/.profile
+RUN bash -c '[[ "$(javac --version)" =~ "17.0" ]]'
 
 # PhantomJS
 RUN apt-get -y install phantomjs=2.1.1+dfsg-2ubuntu1
