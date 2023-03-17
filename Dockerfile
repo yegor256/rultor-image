@@ -252,8 +252,8 @@ RUN bash -c '[[ "$(${HOME}/.cargo/bin/cargo --version)" =~ "1.66" ]]'
 # Clean up
 RUN rm -rf /tmp/*
 RUN rm -rf /root/.ssh
-RUN rm -rf /root.cache
-RUN rm -rf /root.wget-hsts
+RUN rm -rf /root/.cache
+RUN rm -rf /root/.wget-hsts
 RUN rm -rf /root/.gnupg
 
 ENTRYPOINT ["/bin/bash", "--login", "-c"]
