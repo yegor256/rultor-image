@@ -93,8 +93,8 @@ RUN mkdir /tmp/texlive \
 # It's better to do it like this, but Docker has a bug:
 # https://stackoverflow.com/a/41864647/187141
 # ENV PATH "${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
-ENV PATH "${PATH}:/usr/local/texlive/2022/bin/x86_64-linux"
-RUN echo 'export PATH=${PATH}:/usr/local/texlive/2022/bin/x86_64-linux' >> /root/.profile
+ENV PATH "${PATH}:/usr/local/texlive/2023/bin/x86_64-linux"
+RUN echo 'export PATH=${PATH}:/usr/local/texlive/2023/bin/x86_64-linux' >> /root/.profile
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 RUN pdflatex --version
