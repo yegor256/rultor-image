@@ -249,6 +249,11 @@ RUN echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
 RUN ${HOME}/.cargo/bin/rustup toolchain install stable
 RUN bash -c '[[ "$(${HOME}/.cargo/bin/cargo --version)" =~ "1.66" ]]'
 
+# Go
+RUN apt-get update
+RUN apt-get install -y golang
+RUN go version
+
 # Clean up
 RUN rm -rf /tmp/*
 RUN rm -rf /root/.ssh
