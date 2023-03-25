@@ -163,8 +163,8 @@ RUN apt-get -y install openjdk-17-jdk
 RUN update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11)
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
-RUN ln -s "/usr/lib/jvm$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11
-RUN ln -s "/usr/lib/jvm$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17
+RUN ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11
+RUN ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17
 ENV JAVA_HOME "/usr/lib/jvm/java-17"
 RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11' >> /root/.profile
 RUN bash -c '[[ "$(javac  --version)" =~ "11.0" ]]'
