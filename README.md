@@ -23,8 +23,8 @@ This image has Ubuntu 22.04 and the following packages, in their latest versions
 To use Java 17 do this:
 
 ```
-$ update-java-alternatives --set java-1.17.0-openjdk-arm64
-$ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
+$ update-java-alternatives --set /usr/lib/jvm/java-17
+$ export JAVA_HOME=/usr/lib/jvm/java-17
 ```
 
 Feel free to add yours by submitting a pull request.
