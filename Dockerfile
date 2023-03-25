@@ -90,11 +90,9 @@ RUN mkdir /tmp/texlive \
   && cd install-tl/install-tl-* \
   && echo "selected_scheme scheme-small" > p \
   && perl ./install-tl --profile=p
-# It's better to do it like this, but Docker has a bug:
-# https://stackoverflow.com/a/41864647/187141
-# ENV PATH "${PATH}:$(realpath /usr/local/texlive/*/bin/*)"
-ENV PATH "${PATH}:/usr/local/texlive/2023/bin/aarch64-linux"
-RUN echo 'export PATH=${PATH}:/usr/local/texlive/2023/bin/aarch64-linux' >> /root/.profile
+RUN ln -s $(ls /usr/local/texlive/2023/bin/) /usr/local/texlive/2023/bin/latest
+ENV PATH "${PATH}:/usr/local/texlive/2023/bin/latest"
+RUN echo 'export PATH=${PATH}:/usr/local/texlive/2023/bin/latest' >> /root/.profile
 RUN tlmgr init-usertree
 RUN tlmgr install texliveonfly
 RUN pdflatex --version
@@ -224,8 +222,8 @@ RUN apt-get -y install python3.7
 RUN apt-get -y install python3-pip
 RUN apt-get -y install python3.7-dev
 RUN ln -s $(which python3) /usr/bin/python
-RUN pip3 install -Iv --upgrade pip
 RUN bash -c 'python --version'
+RUN pip3 install -Iv --upgrade pip
 RUN bash -c 'pip --version'
 
 # Pygments
@@ -249,7 +247,7 @@ RUN bash -c '"${HOME}/.cargo/bin/cargo" --version'
 # Go
 RUN apt-get update
 RUN apt-get install -y golang
-RUN go version
+RUN bash -c 'go version'
 
 # Clean up
 RUN rm -rf /tmp/*

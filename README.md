@@ -5,14 +5,13 @@
 This is the default Docker image for [Rultor](https://www.rultor.com), available in
 Docker Hub as [`yegor256/rultor-image`](https://hub.docker.com/r/yegor256/rultor-image).
 
-This image has the following product installed, in latest versions:
+This image has Ubuntu 22.04 and the following packages, in their latest versions:
 
   * Git
   * sshd
   * Ruby
   * PHP
   * Java
-  * PhantomJS
   * TeXLive
   * s3cmd
   * PostgreSQL
@@ -24,8 +23,8 @@ This image has the following product installed, in latest versions:
 To use Java 17 do this:
 
 ```
-$ update-java-alternatives --set java-1.17.0-openjdk-amd64
-$ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+$ update-java-alternatives --set java-1.17.0-openjdk-arm64
+$ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
 ```
 
 Feel free to add yours by submitting a pull request.
