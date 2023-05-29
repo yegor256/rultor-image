@@ -234,9 +234,10 @@ RUN pip3 install -Iv pygments
 
 # NodeJS
 RUN rm -rf /usr/lib/node_modules
+RUN curl -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh
+RUN bash /tmp/nodesource_setup.sh
 RUN apt-get -y install nodejs
 RUN bash -c 'node --version'
-RUN apt-get -y install npm
 RUN bash -c 'npm --version'
 
 # Rust and Cargo
