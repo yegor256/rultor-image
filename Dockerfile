@@ -67,6 +67,7 @@ RUN apt-get -y install gnupg2
 RUN apt-get -y install jq
 RUN apt-get -y install netcat-openbsd
 RUN apt-get -y install bsdmainutils
+RUN apt-get -y install libcurl4-gnutls-dev
 RUN apt-get -y install libxml2-utils
 RUN apt-get -y install libjpeg-dev
 RUN apt-get -y install aspell
