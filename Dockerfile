@@ -39,49 +39,50 @@ WORKDIR /tmp
 ENV DEBIAN_FRONTEND=noninteractive
 
 # To disable IPv6
-RUN mkdir ~/.gnupg
-RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+RUN mkdir ~/.gnupg \
+  && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # UTF-8 locale
-RUN apt-get clean
-RUN apt-get update -y --fix-missing
-RUN apt-get -y install locales
-RUN locale-gen en_US.UTF-8 && \
-  dpkg-reconfigure locales && \
-  echo "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale
+RUN apt-get clean \
+  && apt-get update -y --fix-missing \
+  && apt-get -y install locales \
+  && locale-gen en_US.UTF-8 \
+  && dpkg-reconfigure locales \
+  && echo "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale \
+  && echo 'export LC_ALL=en_US.UTF-8' >> /root/.profile \
+  && echo 'export LANG=en_US.UTF-8' >> /root/.profile \
+  && echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
+
 ENV LC_ALL en_US.UTF-8
-RUN echo 'export LC_ALL=en_US.UTF-8' >> /root/.profile
 ENV LANG en_US.UTF-8
-RUN echo 'export LANG=en_US.UTF-8' >> /root/.profile
 ENV LANGUAGE en_US.UTF-8
-RUN echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
 
 # Basic Linux tools
-RUN apt-get -y install wget
-RUN apt-get -y install vim
-RUN apt-get -y install curl
-RUN apt-get -y install sudo
-RUN apt-get -y install unzip
-RUN apt-get -y install zip
-RUN apt-get -y install gnupg2
-RUN apt-get -y install jq
-RUN apt-get -y install netcat-openbsd
-RUN apt-get -y install bsdmainutils
-RUN apt-get -y install libcurl4-gnutls-dev
-RUN apt-get -y install libxml2-utils
-RUN apt-get -y install libjpeg-dev
-RUN apt-get -y install aspell
-RUN apt-get -y install ghostscript
-RUN apt-get -y install build-essential
-RUN apt-get -y install automake
-RUN apt-get -y install autoconf
-RUN apt-get -y install chrpath
-RUN apt-get -y install libxft-dev
-RUN apt-get -y install libfreetype6
-RUN apt-get -y install libfreetype6-dev
-RUN apt-get -y install libfontconfig1
-RUN apt-get -y install libfontconfig1-dev
-RUN apt-get -y install software-properties-common
+RUN apt-get -y install wget \
+  vim \
+  curl \
+  sudo \
+  unzip \
+  zip \
+  gnupg2 \
+  jq \
+  netcat-openbsd \
+  bsdmainutils \
+  libcurl4-gnutls-dev \
+  libxml2-utils \
+  libjpeg-dev \
+  aspell \
+  ghostscript \
+  build-essential \
+  automake \
+  autoconf \
+  chrpath \
+  libxft-dev \
+  libfreetype6 \
+  libfreetype6-dev \
+  libfontconfig1 \
+  libfontconfig1-dev \
+  software-properties-common
 
 # LaTeX
 RUN mkdir /tmp/texlive \
@@ -90,16 +91,16 @@ RUN mkdir /tmp/texlive \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
   && echo "selected_scheme scheme-full" > p \
-  && perl ./install-tl --profile=p
-RUN ln -s $(ls /usr/local/texlive/2023/bin/) /usr/local/texlive/2023/bin/latest
+  && perl ./install-tl --profile=p \
+  && ln -s $(ls /usr/local/texlive/2023/bin/) /usr/local/texlive/2023/bin/latest
 ENV PATH "${PATH}:/usr/local/texlive/2023/bin/latest"
-RUN echo 'export PATH=${PATH}:/usr/local/texlive/2023/bin/latest' >> /root/.profile
-RUN tlmgr init-usertree
-RUN tlmgr install texliveonfly
-RUN pdflatex --version
-RUN bash -c '[[ "$(pdflatex --version)" =~ "2.6" ]]'
-RUN tlmgr install latexmk
-RUN bash -c 'latexmk --version'
+RUN echo 'export PATH=${PATH}:/usr/local/texlive/2023/bin/latest' >> /root/.profile \
+  && tlmgr init-usertree \
+  && tlmgr install texliveonfly \
+  && pdflatex --version \
+  && bash -c '[[ "$(pdflatex --version)" =~ "2.6" ]]' \
+  && tlmgr install latexmk \
+  && bash -c 'latexmk --version'
 
 # CMake for C/C++ projects
 RUN apt-get -y install cmake
@@ -112,63 +113,49 @@ RUN mkdir -p /tmp/download \
   && rm -rf /tmp/download
 
 # Git 2.0
-RUN add-apt-repository ppa:git-core/ppa
-RUN apt-get update -y --fix-missing
-RUN apt-get -y install git
-RUN bash -c 'git --version'
+RUN add-apt-repository ppa:git-core/ppa \
+  && apt-get update -y --fix-missing \
+  && apt-get -y install git \
+  && bash -c 'git --version'
 
 # SSH Daemon
-RUN apt-get -y install ssh
-RUN mkdir /var/run/sshd && \
-  chmod 0755 /var/run/sshd
+RUN apt-get -y install ssh \
+  && mkdir /var/run/sshd \
+  && chmod 0755 /var/run/sshd
 
 # Ruby
-RUN apt-get -y install ruby-dev
-RUN apt-get -y install libmagic-dev
-RUN apt-get -y install zlib1g-dev
-RUN gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-RUN curl -L https://get.rvm.io | sudo bash -s stable
-RUN echo "source /usr/local/rvm/scripts/rvm && rvm use 3.0.1 && rvm default 3.0.1" >> /root/.profile
-RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm pkg install openssl"
-RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.6 --with-openssl-dir=/usr/local/rvm/usr"
-RUN bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1 --with-openssl-dir=/usr/local/rvm/usr"
-RUN echo 'gem: --no-document' >> ~/.gemrc
-RUN bash -l -c ". /etc/profile.d/rvm.sh && \
-  rvm use 3.0.1 && \
-  gem install bundler -v 2.3.26 && \
-  gem install xcop -v 0.7.1 && \
-  gem install pdd -v 0.23.1"
+RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev \
+  && gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+  && curl -L https://get.rvm.io | sudo bash -s stable \
+  && echo "source /usr/local/rvm/scripts/rvm && rvm use 3.0.1 && rvm default 3.0.1" >> /root/.profile \
+  && bash -l -c ". /etc/profile.d/rvm.sh && rvm pkg install openssl" \
+  && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.6 --with-openssl-dir=/usr/local/rvm/usr" \
+  && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1 --with-openssl-dir=/usr/local/rvm/usr" \
+  && echo 'gem: --no-document' >> ~/.gemrc \
+  && bash -l -c ". /etc/profile.d/rvm.sh \
+    && rvm use 3.0.1 \
+    && gem install bundler -v 2.3.26 \
+    && gem install xcop -v 0.7.1 \
+    && gem install pdd -v 0.23.1"
 
 # PHP
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-RUN apt-get update -y --fix-missing
-RUN apt-get -y install php7.2
-RUN apt-get -y install php-pear
-RUN apt-get -y install php7.2-curl
-RUN apt-get -y install php7.2-dev
-RUN apt-get -y install php7.2-gd
-RUN apt-get -y install php7.2-mbstring
-RUN apt-get -y install php7.2-zip
-RUN apt-get -y install php7.2-mysql
-RUN apt-get -y install php7.2-xml
-RUN curl --silent --show-error https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-# RUN pecl install xdebug-beta && \
-#   echo "zend_extension=xdebug.so" > /etc/php5/cli/conf.d/xdebug.ini
-RUN bash -c 'php --version'
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
+  && apt-get update -y --fix-missing \
+  && apt-get -y install php7.2 php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml \
+  && curl --silent --show-error https://getcomposer.org/installer | php \
+  && mv composer.phar /usr/local/bin/composer \
+  && bash -c 'php --version'
 
 # Java
-RUN apt-get -y install ca-certificates
-RUN apt-get -y install openjdk-11-jdk
-RUN apt-get -y install openjdk-17-jdk
-RUN update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11)
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
-RUN ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11
-RUN ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17
 ENV JAVA_HOME "/usr/lib/jvm/java-17"
-RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-11' >> /root/.profile
-RUN bash -c '[[ "$(javac  --version)" =~ "11.0" ]]'
+RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk \
+  && update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11) \
+  && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11 \
+  && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17 \
+  && echo 'export JAVA_HOME=/usr/lib/jvm/java-11' >> /root/.profile \
+  && bash -c '[[ "$(javac  --version)" =~ "11.0" ]]'
 
 # QPDF
 RUN cd /tmp \
@@ -179,15 +166,14 @@ RUN cd /tmp \
   && cmake --build build \
   && cmake --install build \
   && export LD_LIBRARY_PATH=/usr/local/lib \
-  && ldconfig
-RUN bash -c '[[ "$(qpdf --version)" =~ "11.2" ]]'
+  && ldconfig \
+  && bash -c '[[ "$(qpdf --version)" =~ "11.2" ]]'
 
 # S3cmd for AWS S3 integration
 RUN apt-get -y install s3cmd
 
 # Postgresql
-RUN apt-get -y install postgresql-client
-RUN apt-get -y install postgresql
+RUN apt-get -y install postgresql-client postgresql
 RUN bash -c 'psql --version'
 USER postgres
 RUN /etc/init.d/postgresql start && \
@@ -203,61 +189,55 @@ RUN bash -c 'initdb --version'
 # Maven
 ENV MAVEN_VERSION 3.9.1
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
-RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile
-RUN wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" && \
-  mkdir -p /usr/local/apache-maven && \
-  mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven && \
-  tar xzvf "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -C /usr/local/apache-maven/ && \
-  update-alternatives --install /usr/bin/mvn mvn "${M2_HOME}/bin/mvn" 1 && \
-  update-alternatives --config mvn && \
-  mvn -version
+RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile \
+  && wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
+  && mkdir -p /usr/local/apache-maven \
+  && mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven \
+  && tar xzvf "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -C /usr/local/apache-maven/ \
+  && update-alternatives --install /usr/bin/mvn mvn "${M2_HOME}/bin/mvn" 1 \
+  && update-alternatives --config mvn \
+  && mvn -version \
+  && bash -c '[[ "$(mvn --version)" =~ "${MAVEN_VERSION}" ]]'
 COPY settings.xml /root/.m2/settings.xml
-RUN bash -c '[[ "$(mvn --version)" =~ "${MAVEN_VERSION}" ]]'
 
 # Python3
-RUN add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt-get update -y --fix-missing
-RUN apt-get -y install libpq-dev
-RUN apt-get -y install libssl-dev
-RUN apt-get -y install openssl
-RUN apt-get -y install libffi-dev
-RUN apt-get -y install python3.7
-RUN apt-get -y install python3-pip
-RUN apt-get -y install python3.7-dev
-RUN ln -s $(which python3) /usr/bin/python
-RUN bash -c 'python --version'
-RUN pip3 install -Iv --upgrade pip
-RUN bash -c 'pip --version'
+RUN add-apt-repository -y ppa:deadsnakes/ppa \
+  && apt-get update -y --fix-missing \
+  && apt-get -y install libpq-dev libssl-dev openssl libffi-dev python3.7 python3-pip python3.7-dev \
+  && ln -s $(which python3) /usr/bin/python \
+  && bash -c 'python --version' \
+  && pip3 install -Iv --upgrade pip \
+  && bash -c 'pip --version'
 
 # Pygments
-RUN apt-get -y install python3-pygments
-RUN pip3 install -Iv pygments
+RUN apt-get -y install python3-pygments \
+  && pip3 install -Iv pygments
 
 # NodeJS
-RUN rm -rf /usr/lib/node_modules
-RUN curl -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh
-RUN bash /tmp/nodesource_setup.sh
-RUN apt-get -y install nodejs
-RUN bash -c 'node --version'
-RUN bash -c 'npm --version'
+RUN rm -rf /usr/lib/node_modules \
+  && curl -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh \
+  && bash /tmp/nodesource_setup.sh \
+  && apt-get -y install nodejs \
+  && bash -c 'node --version' \
+  && bash -c 'npm --version'
 
 # Rust and Cargo
-RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="${PATH}:${HOME}/.cargo/bin"
-RUN echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile
-RUN ${HOME}/.cargo/bin/rustup toolchain install stable
-RUN bash -c '"${HOME}/.cargo/bin/cargo" --version'
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y \
+  && echo 'export PATH=${PATH}:${HOME}/.cargo/bin' >> /root/.profile \
+  && ${HOME}/.cargo/bin/rustup toolchain install stable \
+  && bash -c '"${HOME}/.cargo/bin/cargo" --version'
 
 # Go
-RUN apt-get update
-RUN apt-get install -y golang
-RUN bash -c 'go version'
+RUN apt-get update \
+  && apt-get install -y golang \
+  && bash -c 'go version'
 
 # Clean up
-RUN rm -rf /tmp/*
-RUN rm -rf /root/.ssh
-RUN rm -rf /root/.cache
-RUN rm -rf /root/.wget-hsts
-RUN rm -rf /root/.gnupg
+RUN rm -rf /tmp/* \
+  /root/.ssh \
+  /root/.cache \
+  /root/.wget-hsts \
+  /root/.gnupg
 
 ENTRYPOINT ["/bin/bash", "--login", "-c"]
