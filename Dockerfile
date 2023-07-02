@@ -107,8 +107,7 @@ RUN apt-get -y install cmake
 
 # Docker cli
 RUN mkdir -p /tmp/download \
-  && curl -s -L "https://download.docker.com/linux/static/stable/x86_64/docker-18.06.3-ce.tgz" | \
-    tar -xz -C /tmp/download \
+  && curl -s -L "https://download.docker.com/linux/static/stable/x86_64/docker-18.06.3-ce.tgz" | tar -xz -C /tmp/download \
   && mv /tmp/download/docker/docker /usr/bin/ \
   && rm -rf /tmp/download
 
@@ -173,17 +172,17 @@ RUN cd /tmp \
 RUN apt-get -y install s3cmd
 
 # Postgresql
-RUN apt-get -y install postgresql-client postgresql
-RUN bash -c 'psql --version'
+RUN apt-get -y install postgresql-client postgresql \
+  && bash -c 'psql --version'
 USER postgres
-RUN /etc/init.d/postgresql start && \
-  psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" && \
-  createdb -O rultor rultor
+RUN /etc/init.d/postgresql start \
+  && psql --command "CREATE USER rultor WITH SUPERUSER PASSWORD 'rultor';" \
+  && createdb -O rultor rultor
 EXPOSE 5432
 USER root
 ENV PATH="${PATH}:/usr/lib/postgresql/14/bin"
-RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/14/bin' >> /root/.profile
-RUN bash -c 'initdb --version'
+RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/14/bin' >> /root/.profile \
+  && bash -c 'initdb --version'
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
