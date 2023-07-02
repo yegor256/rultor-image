@@ -90,7 +90,7 @@ RUN mkdir /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
-  && echo "selected_scheme scheme-full" > p \
+  && echo "selected_scheme scheme-medium" > p \
   && perl ./install-tl --profile=p \
   && ln -s $(ls /usr/local/texlive/2023/bin/) /usr/local/texlive/2023/bin/latest
 ENV PATH "${PATH}:/usr/local/texlive/2023/bin/latest"
