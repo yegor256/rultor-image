@@ -73,6 +73,7 @@ RUN apt-get -y install wget \
   libjpeg-dev \
   aspell \
   ghostscript \
+  inkscape \
   build-essential \
   automake \
   autoconf \
@@ -131,6 +132,7 @@ RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev \
   && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.6 --with-openssl-dir=/usr/local/rvm/usr" \
   && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1 --with-openssl-dir=/usr/local/rvm/usr" \
   && echo 'gem: --no-document' >> ~/.gemrc \
+  && echo 'rvm_silence_path_mismatch_check_flag=1' >> ~/.rvmrc \
   && bash -l -c ". /etc/profile.d/rvm.sh \
     && rvm use 3.0.1 \
     && gem install bundler -v 2.3.26 \
