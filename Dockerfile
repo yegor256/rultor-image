@@ -124,20 +124,21 @@ RUN apt-get -y install ssh \
   && chmod 0755 /var/run/sshd
 
 # Ruby
-RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev \
+RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev openssl \
   && gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
   && curl -L https://get.rvm.io | sudo bash -s stable \
-  && echo "source /usr/local/rvm/scripts/rvm && rvm use 3.0.1 && rvm default 3.0.1" >> /root/.profile \
+  && echo "source /usr/local/rvm/scripts/rvm && rvm use 3.2.2 && rvm default 3.2.2" >> /root/.profile \
   && bash -l -c ". /etc/profile.d/rvm.sh && rvm pkg install openssl" \
   && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.6 --with-openssl-dir=/usr/local/rvm/usr" \
-  && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.0.1 --with-openssl-dir=/usr/local/rvm/usr" \
+  && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-3.2.2 --with-openssl-lib=/usr/lib --with-openssl-include=/usr/include" \
   && echo 'gem: --no-document' >> ~/.gemrc \
   && echo 'rvm_silence_path_mismatch_check_flag=1' >> ~/.rvmrc \
   && bash -l -c ". /etc/profile.d/rvm.sh \
-    && rvm use 3.0.1 \
+    && rvm use 3.2.2 \
     && gem install bundler -v 2.3.26 \
     && gem install xcop -v 0.7.1 \
-    && gem install pdd -v 0.23.1"
+    && gem install pdd -v 0.23.1 \
+    && gem install openssl -v 3.1.0"
 
 # PHP
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
@@ -188,7 +189,7 @@ RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/14/bin' >> /root/.profile \
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
-ENV MAVEN_VERSION 3.9.3
+ENV MAVEN_VERSION 3.9.5
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
 RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile \
   && wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
