@@ -190,7 +190,7 @@ RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/14/bin' >> /root/.profile \
 # Postgresql service has to be started using `sudo /etc/init.d/postgresql start` in .rultor.yml
 
 # Maven
-ENV MAVEN_VERSION 3.9.5
+ENV MAVEN_VERSION 3.9.6
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
 RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile \
   && wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
