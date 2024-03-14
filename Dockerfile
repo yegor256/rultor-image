@@ -96,7 +96,7 @@ RUN mkdir /tmp/texlive \
   && perl ./install-tl --profile=p \
   && ln -s $(ls /usr/local/texlive/${TEXLIVE_YEAR}/bin/) /usr/local/texlive/${TEXLIVE_YEAR}/bin/latest
 ENV PATH "${PATH}:/usr/local/texlive/${TEXLIVE_YEAR}/bin/latest"
-RUN echo 'export PATH=${PATH}:/usr/local/texlive/${TEXLIVE_YEAR}/bin/latest' >> /root/.profile \
+RUN echo "export PATH=\${PATH}:/usr/local/texlive/${TEXLIVE_YEAR}/bin/latest" >> /root/.profile \
   && tlmgr init-usertree \
   && tlmgr install texliveonfly \
   && pdflatex --version \
