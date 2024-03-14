@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2023 Yegor Bugayenko
+# Copyright (c) 2009-2024 Yegor Bugayenko
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -86,6 +86,7 @@ RUN apt-get -y install wget \
   software-properties-common
 
 # LaTeX
+ENV TEXLIVE_YEAR 2024
 RUN mkdir /tmp/texlive \
   && cd /tmp/texlive \
   && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
@@ -93,9 +94,9 @@ RUN mkdir /tmp/texlive \
   && cd install-tl/install-tl-* \
   && echo "selected_scheme scheme-medium" > p \
   && perl ./install-tl --profile=p \
-  && ln -s $(ls /usr/local/texlive/2023/bin/) /usr/local/texlive/2023/bin/latest
-ENV PATH "${PATH}:/usr/local/texlive/2023/bin/latest"
-RUN echo 'export PATH=${PATH}:/usr/local/texlive/2023/bin/latest' >> /root/.profile \
+  && ln -s $(ls /usr/local/texlive/${TEXLIVE_YEAR}/bin/) /usr/local/texlive/${TEXLIVE_YEAR}/bin/latest
+ENV PATH "${PATH}:/usr/local/texlive/${TEXLIVE_YEAR}/bin/latest"
+RUN echo 'export PATH=${PATH}:/usr/local/texlive/${TEXLIVE_YEAR}/bin/latest' >> /root/.profile \
   && tlmgr init-usertree \
   && tlmgr install texliveonfly \
   && pdflatex --version \
