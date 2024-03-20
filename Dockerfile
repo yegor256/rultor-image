@@ -32,15 +32,14 @@
 # Rultor has no dependency on these packages.
 
 FROM ubuntu:22.04
-MAINTAINER Yegor Bugayenko <yegor256@gmail.com>
-LABEL Description="This is the default image for Rultor.com" Vendor="Rultor.com" Version="0.0.0"
+LABEL Description="This is the default image for Rultor.com" Version="0.0.0"
 WORKDIR /tmp
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # To disable IPv6
 RUN mkdir ~/.gnupg \
-  && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+  && printf "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 
 # UTF-8 locale
 RUN apt-get clean \
@@ -58,7 +57,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Basic Linux tools
-RUN apt-get -y install wget \
+RUN apt-get -y --no-install-recommends install wget \
   vim \
   curl \
   sudo \
@@ -116,7 +115,7 @@ RUN mkdir -p /tmp/download \
 # Git 2.0
 RUN add-apt-repository ppa:git-core/ppa \
   && apt-get update -y --fix-missing \
-  && apt-get -y install git \
+  && apt-get -y --no-install-recommends install git \
   && bash -c 'git --version'
 
 # SSH Daemon
