@@ -19,6 +19,7 @@ This image has Ubuntu 22.04 and the following packages, in their latest versions
   * Python
   * NodeJS
   * Go
+  * Rust and Cargo
 
 To use Java 17 do this:
 
