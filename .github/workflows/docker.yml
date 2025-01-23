@@ -3,7 +3,7 @@ name: docker
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
-on:
+'on':
   push:
   pull_request:
 jobs:
