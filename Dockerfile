@@ -111,7 +111,7 @@ RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev openssl \
   && bash -l -c ". /etc/profile.d/rvm.sh \
     && rvm use 3.2.2 \
     && gem install bundler -v 2.3.26 \
-    && gem install xcop -v 0.7.1 \
+    && gem install xcop -v 0.8.0 \
     && gem install pdd -v 0.23.1 \
     && gem install openssl -v 3.1.0"
 
