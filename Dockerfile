@@ -22,7 +22,7 @@ RUN apt-get clean \
   && apt-get -y install locales \
   && locale-gen en_US.UTF-8 \
   && dpkg-reconfigure locales \
-  && echo "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" > /etc/default/locale \
+  && printf "LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8\n" > /etc/default/locale \
   && echo 'export LC_ALL=en_US.UTF-8' >> /root/.profile \
   && echo 'export LANG=en_US.UTF-8' >> /root/.profile \
   && echo 'export LANGUAGE=en_US.UTF-8' >> /root/.profile
@@ -63,7 +63,7 @@ RUN apt-get -y --no-install-recommends install wget \
 ENV TEXLIVE_YEAR 2024
 RUN mkdir /tmp/texlive \
   && cd /tmp/texlive \
-  && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
+  && wget --quiet http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
   && unzip ./install-tl.zip -d install-tl \
   && cd install-tl/install-tl-* \
   && echo "selected_scheme scheme-medium" > p \
