@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2009-2025 Yegor Bugayenko
+# SPDX-FileCopyrightText: Copyright (c) 2009-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
 # The software packages configured here (PHP, Node, Ruby, Java etc.) are for
