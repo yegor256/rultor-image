@@ -6,7 +6,7 @@
 # If you are going to use your own container, you may remove them.
 # Rultor has no dependency on these packages.
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 LABEL Description="This is the default image for Rultor.com" Version="0.0.0"
 WORKDIR /tmp
 
