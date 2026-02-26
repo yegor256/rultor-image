@@ -126,13 +126,16 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
 # Java
 ENV MAVEN_OPTS "-Xmx1g"
 ENV JAVA_OPTS "-Xmx1g"
-ENV JAVA_HOME "/usr/lib/jvm/java-17"
-RUN apt-get -y install ca-certificates openjdk-11-jdk openjdk-17-jdk \
-  && update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.11) \
-  && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.11)" /usr/lib/jvm/java-11 \
-  && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.17)" /usr/lib/jvm/java-17 \
-  && echo 'export JAVA_HOME=/usr/lib/jvm/java-11' >> /root/.profile \
-  && bash -c '[[ "$(javac  --version)" =~ "11.0" ]]'
+ENV JAVA_HOME "/usr/lib/jvm/java-21"
+RUN apt-get update && apt-get -y install \
+    ca-certificates \
+    openjdk-11-jdk \
+    openjdk-17-jdk \
+    openjdk-21-jdk \
+  && update-java-alternatives --set $(ls /usr/lib/jvm | grep java-1.21) \
+  && ln -s "/usr/lib/jvm/$(ls /usr/lib/jvm | grep java-1.21)" /usr/lib/jvm/java-21 \
+  && echo 'export JAVA_HOME=/usr/lib/jvm/java-21' >> /root/.profile \
+  && bash -c '[[ "$(javac --version)" =~ "21" ]]'
 
 # QPDF
 RUN cd /tmp \
