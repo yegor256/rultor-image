@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2009-2026 Yegor Bugayenko
+# SPDX-FileCopyrightText: Copyright (c) 2019-2026 Yegor Bugayenko
 # SPDX-License-Identifier: MIT
 
 # The software packages configured here (PHP, Node, Ruby, Java etc.) are for
@@ -101,7 +101,7 @@ RUN apt-get -y install ssh \
 # Ruby
 RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev openssl \
   && gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
-  && curl -L https://get.rvm.io | sudo bash -s stable \
+  && curl -L https://get.rvm.io | bash -s stable \
   && echo "source /usr/local/rvm/scripts/rvm && rvm use 3.2.2 && rvm default 3.2.2" >> /root/.profile \
   && bash -l -c ". /etc/profile.d/rvm.sh && rvm pkg install openssl" \
   && bash -l -c ". /etc/profile.d/rvm.sh && rvm install ruby-2.7.6 --with-openssl-dir=/usr/local/rvm/usr" \
