@@ -4,12 +4,12 @@ SPDX-FileCopyrightText: Copyright (c) 2019-2026 Yegor Bugayenko
 SPDX-License-Identifier: MIT
 -->
 <settings>
-    <mirrors>
-        <mirror>
-            <id>Maven</id>
-            <name>Maven Central</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <mirrorOf>*</mirrorOf>
-        </mirror>
-    </mirrors>
+  <mirrors>
+    <mirror>
+      <id>Maven</id>
+      <name>Maven Central</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
 </settings>
