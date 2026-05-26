@@ -60,7 +60,7 @@ RUN apt-get -y --no-install-recommends install wget \
   software-properties-common
 
 # LaTeX
-ENV TEXLIVE_YEAR 2025
+ENV TEXLIVE_YEAR 2026
 RUN mkdir /tmp/texlive \
   && cd /tmp/texlive \
   && wget --quiet http://mirror.ctan.org/systems/texlive/tlnet/install-tl.zip \
@@ -118,7 +118,7 @@ RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev openssl \
 # PHP
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
   && apt-get update -y --fix-missing \
-  && apt-get -y install php7.2 php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml \
+  && apt-get -y install php8.2 php-pear php8.2-curl php8.2-dev php8.2-gd php8.2-mbstring php8.2-zip php8.2-mysql php8.2-xml \
   && curl --silent --show-error https://getcomposer.org/installer | php \
   && mv composer.phar /usr/local/bin/composer \
   && bash -c 'php --version'
@@ -170,7 +170,7 @@ RUN echo 'export PATH=${PATH}:/usr/lib/postgresql/14/bin' >> /root/.profile \
 ENV MAVEN_VERSION 3.9.12
 ENV M2_HOME "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}"
 RUN echo 'export M2_HOME=/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}' >> /root/.profile \
-  && wget --quiet "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
+  && wget --quiet "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" \
   && mkdir -p /usr/local/apache-maven \
   && mv "apache-maven-${MAVEN_VERSION}-bin.tar.gz" /usr/local/apache-maven \
   && tar xzvf "/usr/local/apache-maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -C /usr/local/apache-maven/ \
