@@ -118,7 +118,7 @@ RUN apt-get -y install ruby-dev libmagic-dev zlib1g-dev openssl \
 # PHP
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
   && apt-get update -y --fix-missing \
-  && apt-get -y install php7.2 php-pear php7.2-curl php7.2-dev php7.2-gd php7.2-mbstring php7.2-zip php7.2-mysql php7.2-xml \
+  && apt-get -y install php8.2 php-pear php8.2-curl php8.2-dev php8.2-gd php8.2-mbstring php8.2-zip php8.2-mysql php8.2-xml \
   && curl --silent --show-error https://getcomposer.org/installer | php \
   && mv composer.phar /usr/local/bin/composer \
   && bash -c 'php --version'
